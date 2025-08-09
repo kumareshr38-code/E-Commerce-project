@@ -18,6 +18,17 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Action:
+        - lambda:GetFunction
+        - lambda:GetFunctionConfiguration
+        - lambda:UpdateFunctionCode
+        - lambda:UpdateFunctionConfiguration
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - ssm:GetParameter
+        - ssm:GetParameters
+      Resource: "arn:aws:ssm:${self:provider.region}:*:parameter/e-commerce-backend/*"
 
 functions:
   signup:
