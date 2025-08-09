@@ -289,7 +289,7 @@ const getUser = async (event) => {
       };
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(7); 
 
     // Verify JWT token
     let decoded;
