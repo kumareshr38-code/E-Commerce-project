@@ -19,7 +19,7 @@ const authenticateToken = (event) => {
       };
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(7); 
 
     // Verify JWT token
     const decoded = jwt.verify(token, JWT_SECRET);
