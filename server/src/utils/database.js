@@ -9,7 +9,7 @@ const getTableName = (tableType) => {
   if (tableType === 'users') {
     return baseTableName;
   }
-  // Add other table types as needed
+
   return baseTableName;
 };
 
