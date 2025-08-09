@@ -7,7 +7,6 @@ provider:
   region: ${opt:region, 'us-east-1'}
   environment:
     DYNAMODB_TABLE: ${self:service}-users-${self:provider.stage}
-    JWT_SECRET: ${env:JWT_SECRET, 'your_super_secret_jwt_key_here_make_it_long_and_random'}
     PRODUCTS_TABLE: ${self:service}-products-${self:provider.stage}
     CART_TABLE: ${self:service}-cart-${self:provider.stage}
   iamRoleStatements:
@@ -44,7 +43,16 @@ functions:
       - http:
           path: /auth/signup
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   login:
     handler: src/handlers/auth.login
@@ -52,7 +60,16 @@ functions:
       - http:
           path: /auth/login
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   getUser:
     handler: src/handlers/auth.getUser
@@ -60,7 +77,16 @@ functions:
       - http:
           path: /auth/user
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   # Product endpoints
   createProduct:
@@ -69,7 +95,16 @@ functions:
       - http:
           path: /products
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   getProducts:
     handler: src/handlers/products.getProducts
@@ -77,7 +112,16 @@ functions:
       - http:
           path: /products
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   getProduct:
     handler: src/handlers/products.getProduct
@@ -85,7 +129,16 @@ functions:
       - http:
           path: /products/{productId}
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   addToCart:
     handler: src/handlers/products.addToCart
@@ -93,7 +146,16 @@ functions:
       - http:
           path: /cart
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   getUserCart:
     handler: src/handlers/products.getUserCart
@@ -101,7 +163,16 @@ functions:
       - http:
           path: /cart
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
 resources:
   Resources:
