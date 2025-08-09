@@ -8,6 +8,8 @@ provider:
   environment:
     DYNAMODB_TABLE: ${self:service}-users-${self:provider.stage}
     JWT_SECRET: ${env:JWT_SECRET, 'your_super_secret_jwt_key_here_make_it_long_and_random'}
+    PRODUCTS_TABLE: ${self:service}-products-${self:provider.stage}
+    CART_TABLE: ${self:service}-cart-${self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -17,7 +19,12 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: 
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-products-${self:provider.stage}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-cart-${self:provider.stage}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-products-${self:provider.stage}/index/*"
+    - Effect: Allow
       Action:
         - lambda:GetFunction
         - lambda:GetFunctionConfiguration
@@ -55,6 +62,47 @@ functions:
           method: get
           cors: true
 
+  # Product endpoints
+  createProduct:
+    handler: src/handlers/products.createProduct
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
+
+  getProducts:
+    handler: src/handlers/products.getProducts
+    events:
+      - http:
+          path: /products
+          method: get
+          cors: true
+
+  getProduct:
+    handler: src/handlers/products.getProduct
+    events:
+      - http:
+          path: /products/{productId}
+          method: get
+          cors: true
+
+  addToCart:
+    handler: src/handlers/products.addToCart
+    events:
+      - http:
+          path: /cart
+          method: post
+          cors: true
+
+  getUserCart:
+    handler: src/handlers/products.getUserCart
+    events:
+      - http:
+          path: /cart
+          method: get
+          cors: true
+
 resources:
   Resources:
     UsersTable:
@@ -68,6 +116,45 @@ resources:
         KeySchema:
           - AttributeName: email
             KeyType: HASH
+
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-products-${self:provider.stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: product_id
+            AttributeType: S
+          - AttributeName: category
+            AttributeType: S
+        KeySchema:
+          - AttributeName: product_id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: CategoryIndex
+            KeySchema:
+              - AttributeName: category
+                KeyType: HASH
+              - AttributeName: product_id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+    CartTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-cart-${self:provider.stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: productId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: productId
+            KeyType: RANGE
 
 plugins:
   - serverless-offline

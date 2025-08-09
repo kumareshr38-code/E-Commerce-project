@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 // Initialize DynamoDB
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.DYNAMODB_TABLE;
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = 'qudhieqdhieIIYRE567wii883990022445##$@%@^&@*()@*@&@(())';
 
 // Helper function to generate JWT token
 const generateToken = (user) => {
