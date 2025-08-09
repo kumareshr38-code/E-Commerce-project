@@ -5,7 +5,6 @@ const JWT_SECRET = 'qudhieqdhieIIYRE567wii883990022445##$@%@^&@*()@*@&@(())';
 // Middleware to verify JWT token
 const authenticateToken = (event) => {
   try {
-    // Extract token from Authorization header
     const authHeader = event.headers.Authorization || event.headers.authorization;
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
