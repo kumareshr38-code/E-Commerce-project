@@ -92,7 +92,7 @@ const sanitizeInput = (input) => {
   
   return input
     .trim()
-    .replace(/[<>]/g, '') // Remove potential HTML tags
+    .replace(/[<>]/g, '') 
     .replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#x27;')
