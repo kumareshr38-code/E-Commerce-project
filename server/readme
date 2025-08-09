@@ -1,3 +1,37 @@
+
+Typescript
+To prevent bugs during compile time
+
+Shadecn, tailwind cs and material ui
+More community and components ,more customizable with tailwind css, follows compound component patter which reduces more props conditions inside the component
+Faster develop
+
+Next JS
+Faster development, comes in with routes,image optimization,cahcing,seo
+
+UI Components
+
+Login Page
+With email and password field
+
+Signup Page Component
+firstname
+lastname
+password
+email
+mobile
+
+PLP page options to filter with name and category
+
+PDP page with options add product to the cart
+
+Checkout page
+order details with item and price details
+
+Order confirmation page to the order has been confirmed
+
+
+
 User signup:
 Approach GraphQL API (APpsync) + Lambda + DynamoDB.
 
