@@ -1,40 +1,37 @@
-service: e-commerce-backend
+service: e-commerce-backend-v2
 
 provider:
   name: aws
   runtime: nodejs18.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: 
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-products-${self:provider.stage}"
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-cart-${self:provider.stage}"
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-products-${self:provider.stage}/index/*"
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: "*"
   environment:
     DYNAMODB_TABLE: ${self:service}-users-${self:provider.stage}
     PRODUCTS_TABLE: ${self:service}-products-${self:provider.stage}
     CART_TABLE: ${self:service}-cart-${self:provider.stage}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource: 
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-products-${self:provider.stage}"
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-cart-${self:provider.stage}"
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:service}-products-${self:provider.stage}/index/*"
-    - Effect: Allow
-      Action:
-        - lambda:GetFunction
-        - lambda:GetFunctionConfiguration
-        - lambda:UpdateFunctionCode
-        - lambda:UpdateFunctionConfiguration
-      Resource: "*"
-    - Effect: Allow
-      Action:
-        - ssm:GetParameter
-        - ssm:GetParameters
-      Resource: "arn:aws:ssm:${self:provider.region}:*:parameter/e-commerce-backend/*"
+
 
 functions:
   signup:

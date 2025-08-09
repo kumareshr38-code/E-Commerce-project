@@ -74,49 +74,49 @@
     "SignupLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/e-commerce-backend-dev-signup"
+        "LogGroupName": "/aws/lambda/e-commerce-backend-v2-dev-signup"
       }
     },
     "LoginLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/e-commerce-backend-dev-login"
+        "LogGroupName": "/aws/lambda/e-commerce-backend-v2-dev-login"
       }
     },
     "GetUserLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/e-commerce-backend-dev-getUser"
+        "LogGroupName": "/aws/lambda/e-commerce-backend-v2-dev-getUser"
       }
     },
     "CreateProductLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/e-commerce-backend-dev-createProduct"
+        "LogGroupName": "/aws/lambda/e-commerce-backend-v2-dev-createProduct"
       }
     },
     "GetProductsLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/e-commerce-backend-dev-getProducts"
+        "LogGroupName": "/aws/lambda/e-commerce-backend-v2-dev-getProducts"
       }
     },
     "GetProductLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/e-commerce-backend-dev-getProduct"
+        "LogGroupName": "/aws/lambda/e-commerce-backend-v2-dev-getProduct"
       }
     },
     "AddToCartLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/e-commerce-backend-dev-addToCart"
+        "LogGroupName": "/aws/lambda/e-commerce-backend-v2-dev-addToCart"
       }
     },
     "GetUserCartLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/e-commerce-backend-dev-getUserCart"
+        "LogGroupName": "/aws/lambda/e-commerce-backend-v2-dev-getUserCart"
       }
     },
     "IamRoleLambdaExecution": {
@@ -144,7 +144,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "e-commerce-backend",
+                  "e-commerce-backend-v2",
                   "dev",
                   "lambda"
                 ]
@@ -162,7 +162,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/e-commerce-backend-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/e-commerce-backend-v2-dev*:*"
                     }
                   ]
                 },
@@ -173,7 +173,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/e-commerce-backend-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/e-commerce-backend-v2-dev*:*:*"
                     }
                   ]
                 },
@@ -188,29 +188,20 @@
                     "dynamodb:DeleteItem"
                   ],
                   "Resource": [
-                    "arn:aws:dynamodb:us-east-1:*:table/e-commerce-backend-users-dev",
-                    "arn:aws:dynamodb:us-east-1:*:table/e-commerce-backend-products-dev",
-                    "arn:aws:dynamodb:us-east-1:*:table/e-commerce-backend-cart-dev",
-                    "arn:aws:dynamodb:us-east-1:*:table/e-commerce-backend-products-dev/index/*"
+                    "arn:aws:dynamodb:us-east-1:*:table/e-commerce-backend-v2-users-dev",
+                    "arn:aws:dynamodb:us-east-1:*:table/e-commerce-backend-v2-products-dev",
+                    "arn:aws:dynamodb:us-east-1:*:table/e-commerce-backend-v2-cart-dev",
+                    "arn:aws:dynamodb:us-east-1:*:table/e-commerce-backend-v2-products-dev/index/*"
                   ]
                 },
                 {
                   "Effect": "Allow",
                   "Action": [
-                    "lambda:GetFunction",
-                    "lambda:GetFunctionConfiguration",
-                    "lambda:UpdateFunctionCode",
-                    "lambda:UpdateFunctionConfiguration"
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
                   ],
                   "Resource": "*"
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "ssm:GetParameter",
-                    "ssm:GetParameters"
-                  ],
-                  "Resource": "arn:aws:ssm:us-east-1:*:parameter/e-commerce-backend/*"
                 }
               ]
             }
@@ -221,7 +212,7 @@
           "Fn::Join": [
             "-",
             [
-              "e-commerce-backend",
+              "e-commerce-backend-v2",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -239,18 +230,18 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/e-commerce-backend/dev/1754742169857-2025-08-09T12:22:49.857Z/e-commerce-backend.zip"
+          "S3Key": "serverless/e-commerce-backend-v2/dev/1754745906928-2025-08-09T13:25:06.928Z/e-commerce-backend-v2.zip"
         },
         "Handler": "src/handlers/auth.signup",
         "Runtime": "nodejs18.x",
-        "FunctionName": "e-commerce-backend-dev-signup",
+        "FunctionName": "e-commerce-backend-v2-dev-signup",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "e-commerce-backend-users-dev",
-            "PRODUCTS_TABLE": "e-commerce-backend-products-dev",
-            "CART_TABLE": "e-commerce-backend-cart-dev"
+            "DYNAMODB_TABLE": "e-commerce-backend-v2-users-dev",
+            "PRODUCTS_TABLE": "e-commerce-backend-v2-products-dev",
+            "CART_TABLE": "e-commerce-backend-v2-cart-dev"
           }
         },
         "Role": {
@@ -271,18 +262,18 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/e-commerce-backend/dev/1754742169857-2025-08-09T12:22:49.857Z/e-commerce-backend.zip"
+          "S3Key": "serverless/e-commerce-backend-v2/dev/1754745906928-2025-08-09T13:25:06.928Z/e-commerce-backend-v2.zip"
         },
         "Handler": "src/handlers/auth.login",
         "Runtime": "nodejs18.x",
-        "FunctionName": "e-commerce-backend-dev-login",
+        "FunctionName": "e-commerce-backend-v2-dev-login",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "e-commerce-backend-users-dev",
-            "PRODUCTS_TABLE": "e-commerce-backend-products-dev",
-            "CART_TABLE": "e-commerce-backend-cart-dev"
+            "DYNAMODB_TABLE": "e-commerce-backend-v2-users-dev",
+            "PRODUCTS_TABLE": "e-commerce-backend-v2-products-dev",
+            "CART_TABLE": "e-commerce-backend-v2-cart-dev"
           }
         },
         "Role": {
@@ -303,18 +294,18 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/e-commerce-backend/dev/1754742169857-2025-08-09T12:22:49.857Z/e-commerce-backend.zip"
+          "S3Key": "serverless/e-commerce-backend-v2/dev/1754745906928-2025-08-09T13:25:06.928Z/e-commerce-backend-v2.zip"
         },
         "Handler": "src/handlers/auth.getUser",
         "Runtime": "nodejs18.x",
-        "FunctionName": "e-commerce-backend-dev-getUser",
+        "FunctionName": "e-commerce-backend-v2-dev-getUser",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "e-commerce-backend-users-dev",
-            "PRODUCTS_TABLE": "e-commerce-backend-products-dev",
-            "CART_TABLE": "e-commerce-backend-cart-dev"
+            "DYNAMODB_TABLE": "e-commerce-backend-v2-users-dev",
+            "PRODUCTS_TABLE": "e-commerce-backend-v2-products-dev",
+            "CART_TABLE": "e-commerce-backend-v2-cart-dev"
           }
         },
         "Role": {
@@ -335,18 +326,18 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/e-commerce-backend/dev/1754742169857-2025-08-09T12:22:49.857Z/e-commerce-backend.zip"
+          "S3Key": "serverless/e-commerce-backend-v2/dev/1754745906928-2025-08-09T13:25:06.928Z/e-commerce-backend-v2.zip"
         },
         "Handler": "src/handlers/products.createProduct",
         "Runtime": "nodejs18.x",
-        "FunctionName": "e-commerce-backend-dev-createProduct",
+        "FunctionName": "e-commerce-backend-v2-dev-createProduct",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "e-commerce-backend-users-dev",
-            "PRODUCTS_TABLE": "e-commerce-backend-products-dev",
-            "CART_TABLE": "e-commerce-backend-cart-dev"
+            "DYNAMODB_TABLE": "e-commerce-backend-v2-users-dev",
+            "PRODUCTS_TABLE": "e-commerce-backend-v2-products-dev",
+            "CART_TABLE": "e-commerce-backend-v2-cart-dev"
           }
         },
         "Role": {
@@ -367,18 +358,18 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/e-commerce-backend/dev/1754742169857-2025-08-09T12:22:49.857Z/e-commerce-backend.zip"
+          "S3Key": "serverless/e-commerce-backend-v2/dev/1754745906928-2025-08-09T13:25:06.928Z/e-commerce-backend-v2.zip"
         },
         "Handler": "src/handlers/products.getProducts",
         "Runtime": "nodejs18.x",
-        "FunctionName": "e-commerce-backend-dev-getProducts",
+        "FunctionName": "e-commerce-backend-v2-dev-getProducts",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "e-commerce-backend-users-dev",
-            "PRODUCTS_TABLE": "e-commerce-backend-products-dev",
-            "CART_TABLE": "e-commerce-backend-cart-dev"
+            "DYNAMODB_TABLE": "e-commerce-backend-v2-users-dev",
+            "PRODUCTS_TABLE": "e-commerce-backend-v2-products-dev",
+            "CART_TABLE": "e-commerce-backend-v2-cart-dev"
           }
         },
         "Role": {
@@ -399,18 +390,18 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/e-commerce-backend/dev/1754742169857-2025-08-09T12:22:49.857Z/e-commerce-backend.zip"
+          "S3Key": "serverless/e-commerce-backend-v2/dev/1754745906928-2025-08-09T13:25:06.928Z/e-commerce-backend-v2.zip"
         },
         "Handler": "src/handlers/products.getProduct",
         "Runtime": "nodejs18.x",
-        "FunctionName": "e-commerce-backend-dev-getProduct",
+        "FunctionName": "e-commerce-backend-v2-dev-getProduct",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "e-commerce-backend-users-dev",
-            "PRODUCTS_TABLE": "e-commerce-backend-products-dev",
-            "CART_TABLE": "e-commerce-backend-cart-dev"
+            "DYNAMODB_TABLE": "e-commerce-backend-v2-users-dev",
+            "PRODUCTS_TABLE": "e-commerce-backend-v2-products-dev",
+            "CART_TABLE": "e-commerce-backend-v2-cart-dev"
           }
         },
         "Role": {
@@ -431,18 +422,18 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/e-commerce-backend/dev/1754742169857-2025-08-09T12:22:49.857Z/e-commerce-backend.zip"
+          "S3Key": "serverless/e-commerce-backend-v2/dev/1754745906928-2025-08-09T13:25:06.928Z/e-commerce-backend-v2.zip"
         },
         "Handler": "src/handlers/products.addToCart",
         "Runtime": "nodejs18.x",
-        "FunctionName": "e-commerce-backend-dev-addToCart",
+        "FunctionName": "e-commerce-backend-v2-dev-addToCart",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "e-commerce-backend-users-dev",
-            "PRODUCTS_TABLE": "e-commerce-backend-products-dev",
-            "CART_TABLE": "e-commerce-backend-cart-dev"
+            "DYNAMODB_TABLE": "e-commerce-backend-v2-users-dev",
+            "PRODUCTS_TABLE": "e-commerce-backend-v2-products-dev",
+            "CART_TABLE": "e-commerce-backend-v2-cart-dev"
           }
         },
         "Role": {
@@ -463,18 +454,18 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/e-commerce-backend/dev/1754742169857-2025-08-09T12:22:49.857Z/e-commerce-backend.zip"
+          "S3Key": "serverless/e-commerce-backend-v2/dev/1754745906928-2025-08-09T13:25:06.928Z/e-commerce-backend-v2.zip"
         },
         "Handler": "src/handlers/products.getUserCart",
         "Runtime": "nodejs18.x",
-        "FunctionName": "e-commerce-backend-dev-getUserCart",
+        "FunctionName": "e-commerce-backend-v2-dev-getUserCart",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "e-commerce-backend-users-dev",
-            "PRODUCTS_TABLE": "e-commerce-backend-products-dev",
-            "CART_TABLE": "e-commerce-backend-cart-dev"
+            "DYNAMODB_TABLE": "e-commerce-backend-v2-users-dev",
+            "PRODUCTS_TABLE": "e-commerce-backend-v2-products-dev",
+            "CART_TABLE": "e-commerce-backend-v2-cart-dev"
           }
         },
         "Role": {
@@ -488,90 +479,90 @@
         "GetUserCartLogGroup"
       ]
     },
-    "SignupLambdaVersioni2nRdbwqNHfGzY9fjhYfMKRy7NbFrHlXL3rwcaWYpk": {
+    "SignupLambdaVersion4mQXoLXRPbEKTEZvflHgp0UMsKfP8tzZCSX1fP8hs": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SignupLambdaFunction"
         },
-        "CodeSha256": "guUN9GRbr+eAho/lYgTFSV0jhccOYj9W9qdt0CR74ME="
+        "CodeSha256": "WV2bRAlqvDIDf3VVTFqHKc+7HchpDk36u5pPDCp2sHQ="
       }
     },
-    "LoginLambdaVersionWHMWwhcOCWe7FJwwZkBROFsM52WdrV2VJPNXSmmcBZY": {
+    "LoginLambdaVersiondhH56XQ8PytpSeEJAn5kDt5p3eHvbQwD2BKN8px8vw0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LoginLambdaFunction"
         },
-        "CodeSha256": "guUN9GRbr+eAho/lYgTFSV0jhccOYj9W9qdt0CR74ME="
+        "CodeSha256": "WV2bRAlqvDIDf3VVTFqHKc+7HchpDk36u5pPDCp2sHQ="
       }
     },
-    "GetUserLambdaVersion35SKk2iTAwRUssStRx2VkFYYLXoeExA2bToYWnu18": {
+    "GetUserLambdaVersionhbKTU8vGLaSYX4D3ikoNmRtmQHuexMJLS1RiQw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUserLambdaFunction"
         },
-        "CodeSha256": "guUN9GRbr+eAho/lYgTFSV0jhccOYj9W9qdt0CR74ME="
+        "CodeSha256": "WV2bRAlqvDIDf3VVTFqHKc+7HchpDk36u5pPDCp2sHQ="
       }
     },
-    "CreateProductLambdaVersion6awYsVWsP2GGUcWaXlgP9BkoqqesY0srKykD2YbWE": {
+    "CreateProductLambdaVersiondD12IdVXw2C2HEy0EZtuSOCxEnUtIhHop17RYzueEl8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateProductLambdaFunction"
         },
-        "CodeSha256": "guUN9GRbr+eAho/lYgTFSV0jhccOYj9W9qdt0CR74ME="
+        "CodeSha256": "WV2bRAlqvDIDf3VVTFqHKc+7HchpDk36u5pPDCp2sHQ="
       }
     },
-    "GetProductsLambdaVersionKmEk31t3cw6XqQps2X6OdyioHVSYFniQY0itoV0": {
+    "GetProductsLambdaVersiontGyHJ2IV4CmQN9o4PBgyfFmylWexkO8Uu3C9v5SJLtI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetProductsLambdaFunction"
         },
-        "CodeSha256": "guUN9GRbr+eAho/lYgTFSV0jhccOYj9W9qdt0CR74ME="
+        "CodeSha256": "WV2bRAlqvDIDf3VVTFqHKc+7HchpDk36u5pPDCp2sHQ="
       }
     },
-    "GetProductLambdaVersionDEK7IKE6zzr6q9wMVpg9CmSVpBqZWKjRyHC0VPPg8k": {
+    "GetProductLambdaVersionuVhDaGKek75TDKOxNK6tQpjFANz7UTVrxHiN44": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetProductLambdaFunction"
         },
-        "CodeSha256": "guUN9GRbr+eAho/lYgTFSV0jhccOYj9W9qdt0CR74ME="
+        "CodeSha256": "WV2bRAlqvDIDf3VVTFqHKc+7HchpDk36u5pPDCp2sHQ="
       }
     },
-    "AddToCartLambdaVersionxIYmwtu1mYjAeqJt7ecbT4IQas9r5pAUb96i9DgTW1M": {
+    "AddToCartLambdaVersionPLccmvJ49C6EPnGqTp3kKGGDHVDojZOd9u367fefwaY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AddToCartLambdaFunction"
         },
-        "CodeSha256": "guUN9GRbr+eAho/lYgTFSV0jhccOYj9W9qdt0CR74ME="
+        "CodeSha256": "WV2bRAlqvDIDf3VVTFqHKc+7HchpDk36u5pPDCp2sHQ="
       }
     },
-    "GetUserCartLambdaVersionu4i6vuJerQhRYM9wPwGKXwyjbRwMhVPJNfURD5rEE": {
+    "GetUserCartLambdaVersionM5ZMuUutlJa5K00awsA0vFdr4XEWHhNXs3xOjRpwU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUserCartLambdaFunction"
         },
-        "CodeSha256": "guUN9GRbr+eAho/lYgTFSV0jhccOYj9W9qdt0CR74ME="
+        "CodeSha256": "WV2bRAlqvDIDf3VVTFqHKc+7HchpDk36u5pPDCp2sHQ="
       }
     },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "dev-e-commerce-backend",
+        "Name": "dev-e-commerce-backend-v2",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -701,7 +692,7 @@
               "StatusCode": "200",
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
               },
               "ResponseTemplates": {
@@ -746,7 +737,7 @@
               "StatusCode": "200",
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
               },
               "ResponseTemplates": {
@@ -791,7 +782,7 @@
               "StatusCode": "200",
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
               },
               "ResponseTemplates": {
@@ -826,7 +817,7 @@
         ],
         "RequestParameters": {},
         "Integration": {
-          "Type": "MOCK",
+          "Type": "AWS_PROXY",
           "RequestTemplates": {
             "application/json": "{statusCode:200}"
           },
@@ -836,22 +827,50 @@
               "StatusCode": "200",
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST'"
               },
               "ResponseTemplates": {
                 "application/json": ""
               }
             }
-          ]
+          ],
+          "IntegrationHttpMethod": "POST",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "CreateProductLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
         },
         "ResourceId": {
           "Ref": "ApiGatewayResourceProducts"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
-        }
-      }
+        },
+        "ApiKeyRequired": false
+      },
+      "DependsOn": [
+        "CreateProductLambdaPermissionApiGateway"
+      ]
     },
     "ApiGatewayMethodProductsProductidVarOptions": {
       "Type": "AWS::ApiGateway::Method",
@@ -871,7 +890,7 @@
         ],
         "RequestParameters": {},
         "Integration": {
-          "Type": "MOCK",
+          "Type": "AWS_PROXY",
           "RequestTemplates": {
             "application/json": "{statusCode:200}"
           },
@@ -881,22 +900,50 @@
               "StatusCode": "200",
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
               },
               "ResponseTemplates": {
                 "application/json": ""
               }
             }
-          ]
+          ],
+          "IntegrationHttpMethod": "POST",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "GetProductLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
         },
         "ResourceId": {
           "Ref": "ApiGatewayResourceProductsProductidVar"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
-        }
-      }
+        },
+        "ApiKeyRequired": false
+      },
+      "DependsOn": [
+        "GetProductLambdaPermissionApiGateway"
+      ]
     },
     "ApiGatewayMethodCartOptions": {
       "Type": "AWS::ApiGateway::Method",
@@ -916,7 +963,7 @@
         ],
         "RequestParameters": {},
         "Integration": {
-          "Type": "MOCK",
+          "Type": "AWS_PROXY",
           "RequestTemplates": {
             "application/json": "{statusCode:200}"
           },
@@ -926,22 +973,50 @@
               "StatusCode": "200",
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST'"
               },
               "ResponseTemplates": {
                 "application/json": ""
               }
             }
-          ]
+          ],
+          "IntegrationHttpMethod": "POST",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "AddToCartLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
         },
         "ResourceId": {
           "Ref": "ApiGatewayResourceCart"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
-        }
-      }
+        },
+        "ApiKeyRequired": false
+      },
+      "DependsOn": [
+        "AddToCartLambdaPermissionApiGateway"
+      ]
     },
     "ApiGatewayMethodAuthSignupPost": {
       "Type": "AWS::ApiGateway::Method",
@@ -1311,7 +1386,7 @@
         "GetUserCartLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1754742152296": {
+    "ApiGatewayDeployment1754745889742": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1330,9 +1405,12 @@
         "ApiGatewayMethodAuthLoginPost",
         "ApiGatewayMethodAuthUserGet",
         "ApiGatewayMethodProductsPost",
+        "ApiGatewayMethodProductsOptions",
         "ApiGatewayMethodProductsGet",
         "ApiGatewayMethodProductsProductidVarGet",
+        "ApiGatewayMethodProductsProductidVarOptions",
         "ApiGatewayMethodCartPost",
+        "ApiGatewayMethodCartOptions",
         "ApiGatewayMethodCartGet"
       ]
     },
@@ -1635,7 +1713,7 @@
     "UsersTable": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
-        "TableName": "e-commerce-backend-users-dev",
+        "TableName": "e-commerce-backend-v2-users-dev",
         "BillingMode": "PAY_PER_REQUEST",
         "AttributeDefinitions": [
           {
@@ -1654,7 +1732,7 @@
     "ProductsTable": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
-        "TableName": "e-commerce-backend-products-dev",
+        "TableName": "e-commerce-backend-v2-products-dev",
         "BillingMode": "PAY_PER_REQUEST",
         "AttributeDefinitions": [
           {
@@ -1670,10 +1748,6 @@
           {
             "AttributeName": "product_id",
             "KeyType": "HASH"
-          },
-          {
-            "AttributeName": "category",
-            "KeyType": "RANGE"
           }
         ],
         "GlobalSecondaryIndexes": [
@@ -1699,7 +1773,7 @@
     "CartTable": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
-        "TableName": "e-commerce-backend-cart-dev",
+        "TableName": "e-commerce-backend-v2-cart-dev",
         "BillingMode": "PAY_PER_REQUEST",
         "AttributeDefinitions": [
           {
@@ -1730,79 +1804,79 @@
         "Ref": "ServerlessDeploymentBucket"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-ServerlessDeploymentBucketName"
+        "Name": "sls-e-commerce-backend-v2-dev-ServerlessDeploymentBucketName"
       }
     },
     "SignupLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SignupLambdaVersioni2nRdbwqNHfGzY9fjhYfMKRy7NbFrHlXL3rwcaWYpk"
+        "Ref": "SignupLambdaVersion4mQXoLXRPbEKTEZvflHgp0UMsKfP8tzZCSX1fP8hs"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-SignupLambdaFunctionQualifiedArn"
+        "Name": "sls-e-commerce-backend-v2-dev-SignupLambdaFunctionQualifiedArn"
       }
     },
     "LoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginLambdaVersionWHMWwhcOCWe7FJwwZkBROFsM52WdrV2VJPNXSmmcBZY"
+        "Ref": "LoginLambdaVersiondhH56XQ8PytpSeEJAn5kDt5p3eHvbQwD2BKN8px8vw0"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-LoginLambdaFunctionQualifiedArn"
+        "Name": "sls-e-commerce-backend-v2-dev-LoginLambdaFunctionQualifiedArn"
       }
     },
     "GetUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUserLambdaVersion35SKk2iTAwRUssStRx2VkFYYLXoeExA2bToYWnu18"
+        "Ref": "GetUserLambdaVersionhbKTU8vGLaSYX4D3ikoNmRtmQHuexMJLS1RiQw"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-GetUserLambdaFunctionQualifiedArn"
+        "Name": "sls-e-commerce-backend-v2-dev-GetUserLambdaFunctionQualifiedArn"
       }
     },
     "CreateProductLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateProductLambdaVersion6awYsVWsP2GGUcWaXlgP9BkoqqesY0srKykD2YbWE"
+        "Ref": "CreateProductLambdaVersiondD12IdVXw2C2HEy0EZtuSOCxEnUtIhHop17RYzueEl8"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-CreateProductLambdaFunctionQualifiedArn"
+        "Name": "sls-e-commerce-backend-v2-dev-CreateProductLambdaFunctionQualifiedArn"
       }
     },
     "GetProductsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetProductsLambdaVersionKmEk31t3cw6XqQps2X6OdyioHVSYFniQY0itoV0"
+        "Ref": "GetProductsLambdaVersiontGyHJ2IV4CmQN9o4PBgyfFmylWexkO8Uu3C9v5SJLtI"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-GetProductsLambdaFunctionQualifiedArn"
+        "Name": "sls-e-commerce-backend-v2-dev-GetProductsLambdaFunctionQualifiedArn"
       }
     },
     "GetProductLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetProductLambdaVersionDEK7IKE6zzr6q9wMVpg9CmSVpBqZWKjRyHC0VPPg8k"
+        "Ref": "GetProductLambdaVersionuVhDaGKek75TDKOxNK6tQpjFANz7UTVrxHiN44"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-GetProductLambdaFunctionQualifiedArn"
+        "Name": "sls-e-commerce-backend-v2-dev-GetProductLambdaFunctionQualifiedArn"
       }
     },
     "AddToCartLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AddToCartLambdaVersionxIYmwtu1mYjAeqJt7ecbT4IQas9r5pAUb96i9DgTW1M"
+        "Ref": "AddToCartLambdaVersionPLccmvJ49C6EPnGqTp3kKGGDHVDojZOd9u367fefwaY"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-AddToCartLambdaFunctionQualifiedArn"
+        "Name": "sls-e-commerce-backend-v2-dev-AddToCartLambdaFunctionQualifiedArn"
       }
     },
     "GetUserCartLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUserCartLambdaVersionu4i6vuJerQhRYM9wPwGKXwyjbRwMhVPJNfURD5rEE"
+        "Ref": "GetUserCartLambdaVersionM5ZMuUutlJa5K00awsA0vFdr4XEWHhNXs3xOjRpwU"
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-GetUserCartLambdaFunctionQualifiedArn"
+        "Name": "sls-e-commerce-backend-v2-dev-GetUserCartLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
@@ -1828,7 +1902,7 @@
         ]
       },
       "Export": {
-        "Name": "sls-e-commerce-backend-dev-ServiceEndpoint"
+        "Name": "sls-e-commerce-backend-v2-dev-ServiceEndpoint"
       }
     }
   }
