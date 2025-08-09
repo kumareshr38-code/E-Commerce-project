@@ -1,0 +1,53 @@
+User signup:
+Approach GraphQL API (APpsync) + Lambda + DynamoDB.
+
+user submits the login creds,
+
+1. Graphql - mutation query to save the login creds,
+2. Lambda Resolver for Authorization,
+         - store the login creds in db,
+         - hash the password using bcrypt
+   
+
+Login:
+
+user submits the login creds
+   1. invoke the GQ api , query to fetch by email
+     - fetch the hash pas compare it with bcrypt
+     -  if it matches issue jwt
+
+
+
+Product catalog:
+
+
+   Home appliances..
+
+     Dynamo db has all the products
+        product table
+               - product_id  -pk
+               -category  -sk
+               - name 
+               - price
+               -instock
+               createdAt, UpdatedAt
+     
+        Cart table
+              -user Id   -pk
+              -product id
+              - quantity
+              -price
+              -addedAt
+
+
+
+
+CMS service: 
+     - Contentful
+     - Get api to fetch the cms pages(content delivery api)
+     - transform the json data(map nested JSON into our schema needs)
+     - send the JSON to UI(backend api)
+     - renders the contents in UI
+
+    
+   
